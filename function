@@ -5,6 +5,7 @@ struct node
     int data;
     struct node *next;        
 };
+
 struct node * create()
 {
     struct node *head,*newnode,*ptr;     
@@ -33,26 +34,163 @@ struct node * create()
     return head;
 }
 
-
-struct node display(struct node * head)
- {
-  
+void  display(struct node *head)
+ {  
   struct node *newnode,*ptr;  
   ptr=head;
-  while(ptr!=0)
+  while(ptr->next!=0)
      {
-        printf("%d\n",ptr->data);
+        printf("%d->",ptr->data);
         // printf("%p\n",newnode->next);
         ptr=ptr->next;
      }
-
+  printf("%d\n",ptr->data);
  }
+
+ struct node * insertbegin(struct node * head)
+ {
+  struct node *newnode,*ptr;
+  newnode=(struct node*)malloc(sizeof(struct node));
+  if(newnode==0)
+    {
+     printf("Stack Overflow");
+    }
+  else
+    {
+     printf("Enter the data\t\t");
+     scanf("%d",&newnode->data);
+     newnode->next=0;
+     newnode->next=head;
+     head=newnode;   
+    }
+    return head;
+ }
+
+ void insertend(struct node * head)
+ {
+  struct node *newnode,*ptr;
+  newnode=(struct node*)malloc(sizeof(struct node));    
+  printf("Enter the data\t\t");
+  scanf("%d",&newnode->data);
+  newnode->next=0;
+  ptr=head;
+  while(ptr->next!=0)
+     {
+      ptr=ptr->next;
+     }
+  ptr->next=newnode;    
+ }
+
+void insertposition(struct node *head)
+{
+  int key;
+  struct node *newnode,*ptr;
+  newnode=(struct node*)malloc(sizeof(struct node));    
+  printf("Enter the data\t\t");
+  scanf("%d",&newnode->data);
+  newnode->next=0;
+  ptr=head;
+  printf("Enter the element to be searched\n");
+  scanf("%d",&key);
+  while(ptr->data!=key && ptr->next!=0)
+    {
+     ptr=ptr->next;
+    }
+  if(ptr->next==0)
+    {
+     printf("Elements not found");
+    }
+  else
+   {
+    newnode->next=ptr->next;
+    ptr->next=newnode;   
+   }
+}
+
+ struct node * deletebegin(struct node * head)
+ {
+  struct node *ptr;
+  ptr=head;
+  if(head==0)
+   {
+    printf("No node to deleted");
+   }
+  else
+   {
+     head=ptr->next;
+     ptr->next=0;      
+   } 
+  return head;    
+ }
+
+void deleteend(struct node * head)
+{
+  struct node *ptr,*ptr1;
+  ptr=head;
+  while(ptr->next!=0)
+  {
+    ptr1=ptr;
+    ptr=ptr->next;
+  }
+  ptr1->next=0;
+}
+
+void deletepostn(struct node * head)
+{
+  int key;
+  struct node *ptr,*ptr1;
+  ptr=head;
+  printf("Enter the element to be searched\n");
+  scanf("%d",&key);
+  while(ptr->data!=key && ptr->next!=0)
+  {
+    ptr1=ptr;
+    ptr=ptr->next;
+  }
+  ptr1->next=ptr->next;
+}
 
 void main()
 {
-  struct node *c;  
-  c=create();
-  printf("%p\n",c);
-  display(c);   
+  int ch;
+  struct node *starthead,*newhead;  
+  starthead=create();
+  printf("Current head value =%p\n",starthead);
+  printf("The numbers are\n"); 
+  display(starthead); 
+  printf("Enter the Function you want to perform \n Press 1 for insertion at beginning \n Press 2 for insertion at end\n");
+  printf(" Press 3 for insertion at any position \n Press 4 for deletion at beginning\n");
+  printf(" Press 5 for deletion at end \n Press 6 for deletion at any position\t");
+  scanf("%d",&ch);
+  switch (ch)
+  {
+  case 1:newhead=insertbegin(starthead);
+         printf("\n");
+         display(newhead);
+         break;
+  case 2:insertend(starthead);
+         printf("\n");
+         display(starthead);
+         break;
+  case 3:insertposition(starthead);
+         printf("\n");
+         display(starthead);
+         break;
+  case 4:newhead=deletebegin(starthead);
+         printf("\n");
+         display(newhead);
+         break;
+  case 5:deleteend(starthead);
+         printf("\n");
+         display(starthead);
+         break;
+  case 6:deletepostn(starthead);
+         printf("\n");
+         display(starthead);
+         break;   
+  
+  default:printf("Function not available!!!!");
+    
+  } 
      
 }
